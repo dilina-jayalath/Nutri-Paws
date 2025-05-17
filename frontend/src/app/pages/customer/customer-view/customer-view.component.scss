@@ -262,30 +262,6 @@
   margin: 20px 0;
 }
 
-
-.add-to-cart-btn {
-  background-color: #106F67 !important;
-  color: white !important;
-  margin-top: 10px !important;
-  width: 100%;
-  padding: 8px 16px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #0e5c55 !important;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  mat-icon {
-    margin-right: 8px;
-  }
-}
-
-
 .add-to-cart-btn {
   background-color: #5c8961 !important;
   color: white !important;
@@ -306,4 +282,13 @@
   mat-icon {
     margin-right: 8px;
   }
+}
+
+.out-of-stock-btn {
+  background-color: #e57373 !important;
+  color: white !important;
+  margin-top: 10px !important;
+  width: 100%;
+  padding: 8px 16px;
+  cursor: not-allowed;
 }
