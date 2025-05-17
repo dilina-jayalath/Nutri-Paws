@@ -202,6 +202,8 @@ export class CustomerViewComponent implements OnInit {
               stock++;
               quantitySpan.innerText = stock.toString();
               totalPriceSpan.innerText = (item.price * stock).toFixed(2);
+            } else {
+              Swal.fire('Stock Limit', 'You have reached the maximum stock available for this item.', 'error');
             }
           });
 

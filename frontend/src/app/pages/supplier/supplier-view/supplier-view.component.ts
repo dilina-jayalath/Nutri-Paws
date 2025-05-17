@@ -241,6 +241,8 @@ export class SupplierViewComponent {
               quantity++;
               quantitySpan.innerText = quantity.toString();
               totalPriceSpan.innerText = (item.price * quantity).toFixed(2);
+            } else {
+              Swal.fire('Stock Limit', 'You have reached the maximum stock available for this item.', 'error');
             }
           });
 
