@@ -208,6 +208,10 @@ export class SupplierViewComponent {
   }
 
   showItemPopup(item: any) {
+    if (item.quantity <= 0) {
+      Swal.fire('Out of Stock', 'This item is out of stock and cannot be added to the cart.', 'error');
+      return;
+    }
     let quantity = 1; // Default quantity
     let totalPrice = item.price; // Initialize total price
 

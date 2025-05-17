@@ -89,6 +89,9 @@
                 <mat-error *ngIf="signupForm.get('fName')?.hasError('required')">
                   First name is required
                 </mat-error>
+                <mat-error *ngIf="signupForm.get('fName')?.hasError('pattern')">
+                  Only letters are allowed
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="form-field">
@@ -97,6 +100,9 @@
                 <mat-icon matSuffix>badge</mat-icon>
                 <mat-error *ngIf="signupForm.get('lName')?.hasError('required')">
                   Last name is required
+                </mat-error>
+                <mat-error *ngIf="signupForm.get('lName')?.hasError('pattern')">
+                  Only letters are allowed
                 </mat-error>
               </mat-form-field>
 
@@ -154,6 +160,9 @@
                 </mat-error>
                 <mat-error *ngIf="signupForm.get('username')?.hasError('minlength')">
                   Username must be at least 3 characters
+                </mat-error>
+                <mat-error *ngIf="signupForm.get('username')?.hasError('pattern')">
+                  Only letters are allowed
                 </mat-error>
               </mat-form-field>
 

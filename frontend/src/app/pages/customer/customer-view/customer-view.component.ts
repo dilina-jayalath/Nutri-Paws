@@ -158,6 +158,10 @@ export class CustomerViewComponent implements OnInit {
   }
 
   showItemPopup(item: any) {
+    if (item.stock <= 0) {
+      Swal.fire('Out of Stock', 'This item is out of stock and cannot be added to the cart.', 'error');
+      return;
+    }
     let stock = 1; // Default quantity
     let totalPrice = item.price; // Initialize total price
     console.log('item - ' + JSON.stringify(item));
@@ -253,30 +257,11 @@ export class CustomerViewComponent implements OnInit {
     });
   }
 
-  // addToCart(item: any, quantity: number) {
-  //   const customer_id = Number(localStorage.getItem('customerId')) || 0;
-
-  //   if (!customer_id) {
-  //     Swal.fire('Error', 'Customer ID not found. Please log in.', 'error');
-  //     return;
-  //   }
-
-  //   this.api.getCartId(customer_id).subscribe({
-  //     next: (res: any) => {
-  //       if (!res) {
-  //         this.createCart(customer_id, item, quantity);
-  //       } else {
-  //         console.log('cart', res[0].cartId);
-
-  //         this.addItemToCart(res[0].cartId, item, quantity);
-  //       }
-  //     },
-  //     error: (err: any) => {
-  //       Swal.fire('Failed To get Cart');
-  //     },
-  //   });
-  // }
   addToCart(item: any) {
+    if (item.stock <= 0) {
+      Swal.fire('Out of Stock', 'This item is out of stock and cannot be added to the cart.', 'error');
+      return;
+    }
     const dialogRef = this.dialog.open(QuantityDialogComponent, {
       width: '350px',
       data: {

@@ -29,9 +29,28 @@ export class SupplierSignupComponent {
       {
         companyName: ['', [Validators.required]],
         registrationNumber: ['', [Validators.required]],
-        fName: ['', [Validators.required]],
-        lName: ['', [Validators.required]],
-        username: ['', [Validators.required, Validators.minLength(3)]],
+        fName: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^[A-Za-z]+$/), // Only letters allowed
+          ],
+        ],
+        lName: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^[A-Za-z]+$/), // Only letters allowed
+          ],
+        ],
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.pattern(/^[A-Za-z]+$/), // Only letters allowed
+          ],
+        ],
         email: ['', [Validators.required, Validators.email]],
         phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
         address: ['', [Validators.required]],

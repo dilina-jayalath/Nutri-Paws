@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
 
@@ -22,4 +23,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
     @Query(value = "UPDATE cart_item SET status = :status WHERE cart_item_id = :id", nativeQuery = true)
     void updateStatus(@Param("id") int id, @Param("status") String status);
 
+    // Find existing active cart‐item by cart and item
+    Optional<CartItem> findByCartId_CartIdAndItemId_ItemIdAndStatus(int cartId, int itemId, CartItemStatus status);
 }

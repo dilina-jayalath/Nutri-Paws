@@ -68,24 +68,29 @@ public class CartItemController {
         try {
             Cart cart = cartRepository.findById(cartItemRequest.getCartId())
                     .orElseThrow(() -> new RuntimeException("Cart not found"));
-
             Item item = itemRepository.findById(cartItemRequest.getItemId())
                     .orElseThrow(() -> new RuntimeException("Item not found"));
 
-            CartItem cartItem = new CartItem();
-            cartItem.setCartId(cart);
-            cartItem.setItemId(item);
-            cartItem.setQuantity(cartItemRequest.getQuantity());
-            cartItem.setStatus(CartItemStatus.Active);
+            // if already in cart, just bump quantity
+            Optional<CartItem> existing = cartItemService
+              .findExistingCartItem(cartItemRequest.getCartId(), cartItemRequest.getItemId());
+            CartItem toSave;
+            if (existing.isPresent()) {
+                toSave = existing.get();
+                toSave.setQuantity(toSave.getQuantity() + cartItemRequest.getQuantity());
+            } else {
+                toSave = new CartItem();
+                toSave.setCartId(cart);
+                toSave.setItemId(item);
+                toSave.setQuantity(cartItemRequest.getQuantity());
+                toSave.setStatus(CartItemStatus.Active);
+            }
 
-            CartItem cartItemSaved = cartItemService.setCartItem(cartItem);
-
-            // ✅ Return a success message
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Item added to cart successfully");
-            response.put("cartItemId", cartItemSaved.getCartItemId());
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            CartItem saved = cartItemService.setCartItem(toSave);
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("message", "Item added to cart successfully");
+            resp.put("cartItemId", saved.getCartItemId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(resp);
 
         } catch (Exception e) {
             e.printStackTrace(); // (good for debugging)

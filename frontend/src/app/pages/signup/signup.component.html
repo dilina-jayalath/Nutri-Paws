@@ -21,6 +21,9 @@
           <mat-error *ngIf="signupForm.get('username')?.hasError('minlength')">
             Username must be at least 3 characters
           </mat-error>
+          <mat-error *ngIf="signupForm.get('username')?.hasError('pattern')">
+            Only letters are allowed
+          </mat-error>
         </mat-form-field>
       </div>
 

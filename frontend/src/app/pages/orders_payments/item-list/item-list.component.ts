@@ -60,6 +60,10 @@ export class ItemListComponent {
   }
 
   showItemPopup(item: any) {
+    if (item.stock <= 0) {
+      Swal.fire('Out of Stock', 'This item is out of stock and cannot be added to the cart.', 'error');
+      return;
+    }
     let stock = 1; // Default quantity
     let totalPrice = item.price; // Initialize total price
     console.log('item - ' + JSON.stringify(item));

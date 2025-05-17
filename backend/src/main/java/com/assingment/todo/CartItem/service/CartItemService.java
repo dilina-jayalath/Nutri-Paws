@@ -91,4 +91,10 @@ public class CartItemService {
             throw new RuntimeException("Invalid status value: " + status);
         }
     }
+
+    // Find existing active cart‐item for given cart & item
+    public Optional<CartItem> findExistingCartItem(int cartId, int itemId) {
+        return cartItemRepository
+          .findByCartId_CartIdAndItemId_ItemIdAndStatus(cartId, itemId, CartItemStatus.Active);
+    }
 }
