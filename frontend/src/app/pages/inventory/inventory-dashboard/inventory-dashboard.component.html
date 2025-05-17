@@ -1,0 +1,156 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side Navigation -->
+  <mat-sidenav #sidenav mode="side" opened>
+    <!-- Logo Section -->
+    <div class="logo-container">
+      <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo">
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/stores" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+      <a mat-list-item routerLink="/manage-inventory" routerLinkActive="active-link">
+        <mat-icon>inventory</mat-icon> Manage Inventory
+      </a>
+
+      <a mat-list-item routerLink="/in-house-orders" routerLinkActive="active-link">
+        <mat-icon>list</mat-icon> In House Orders
+      </a>
+
+      <a mat-list-item routerLink="/customer-orders" routerLinkActive="active-link">
+        <mat-icon>insert_invitation</mat-icon> customer Orders
+      </a>
+
+      <a mat-list-item routerLink="/inventory-report" routerLinkActive="active-link">
+        <mat-icon>report</mat-icon> Report
+      </a>
+
+      <a mat-list-item (click)="logout()" routerLinkActive="active-link">
+        <mat-icon>exit_to_app</mat-icon> Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Store Management</span>
+
+      <span class="spacer"></span> <!-- Pushes the next icons to the right -->
+
+      <button mat-icon-button aria-label="Notifications" (click)="openNotifications()">
+        <mat-icon>notifications</mat-icon>
+        <div *ngIf="showNotificattionDot" class="blinking-dot"></div>
+      </button>
+
+    </mat-toolbar>
+    <div class="content">
+      <div class="container">
+        <!-- First Row: Inventory Details -->
+        <div class="row">
+          <div class="col-12">
+            <mat-card class="inventory-card">
+              <mat-card-header>
+                <mat-card-title>Inventory Items Summary</mat-card-title>
+                <button mat-raised-button color="primary" class="add-button" (click)="addNewItem()">Add New
+                  Item</button>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Inventory Item Details</p>
+                <div class="row">
+                  <div *ngFor="let item of displayedItems" class="col-4">
+                    <mat-card class="item-card">
+                      <img [src]="item.emgUrl" alt="{{ item.itemName }}" class="item-image">
+                      <p>{{ item.itemName }}</p>
+                      <p>Available Quantity - {{ item.stock }}</p>
+                      <p>Issued Quantity - {{ item.quantity }}</p>
+                    </mat-card>
+                  </div>
+                </div>
+
+              </mat-card-content>
+              <button mat-raised-button color="primary" class="view-more-button" (click)="onViewMoreToggle()">
+                {{ isBtnexpand ? 'Less' : 'View More' }}
+              </button>
+            </mat-card>
+          </div>
+        </div>
+
+        <!-- Second Row: In-House Orders & Customer Orders -->
+        <div class="row">
+          <!-- In-House Orders Card -->
+          <div class="col-6">
+            <mat-card class="order-card">
+              <mat-card-header>
+                <mat-card-title>In-House Order Status</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="orders-container">
+                  <div class="order-item" *ngFor="let order of inHouseOrders; let i = index">
+                    <div class="order-details">
+                      <img src="/assets/uploads/image1.jpg" alt="{{ order.itemName }}" class="order-image">
+                      <p><strong>{{ order.price }}</strong></p>
+                      <p>{{ order.address }}</p>
+                      <p>{{ order.status }}</p>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+              <button mat-raised-button color="primary" class="view-more-button" routerLink="/in-house-orders">View
+                More</button>
+            </mat-card>
+          </div>
+
+          <!-- Customer Orders Card -->
+          <div class="col-6">
+            <mat-card class="order-card">
+              <mat-card-header>
+                <mat-card-title>Customer Orders</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <button mat-raised-button color="primary" class="manage-button" routerLink="/customer-orders">Manage
+                  Orders</button>
+                <div class="scrollable-table-container">
+                  <table mat-table [dataSource]="customerOrders">
+                    <!-- Column Definitions -->
+                    <ng-container matColumnDef="customerName">
+                      <th mat-header-cell *matHeaderCellDef>Customer address</th>
+                      <td mat-cell *matCellDef="let row">{{ row.address}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="itemName">
+                      <th mat-header-cell *matHeaderCellDef>Item price</th>
+                      <td mat-cell *matCellDef="let row">{{ row.price }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="orderDate">
+                      <th mat-header-cell *matHeaderCellDef>Item status</th>
+                      <td mat-cell *matCellDef="let row">{{ row.status}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="requestQuantity">
+                      <th mat-header-cell *matHeaderCellDef>Mobile no</th>
+                      <td mat-cell *matCellDef="let row">{{ row.mobile_no}}</td>
+                    </ng-container>
+
+                    <!-- Table Header Row -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                    <!-- Table Body Row -->
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                </div>
+
+              </mat-card-content>
+
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

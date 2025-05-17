@@ -1,0 +1,113 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side Navigation -->
+  <mat-sidenav #sidenav mode="side" opened>
+    <!-- Logo Section -->
+    <div class="logo-container">
+      <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo">
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/order-payments" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+      <!-- <a mat-list-item routerLink="/manage-inventory" routerLinkActive="active-link">
+          <mat-icon>inventory</mat-icon>Inventory Details
+        </a> -->
+      <a mat-list-item routerLink="/payments" routerLinkActive="active-link">
+        <mat-icon>credit_card</mat-icon>Payment Details
+      </a>
+
+      <!-- <a mat-list-item routerLink="/user-roles" routerLinkActive="active-link">
+        <mat-icon>supervised_user_circle</mat-icon>User Roles
+      </a> -->
+
+      <a mat-list-item routerLink="/system-users" routerLinkActive="active-link">
+        <mat-icon>supervised_user_circle</mat-icon>System Users
+      </a>
+
+      <a mat-list-item routerLink="/order-details" routerLinkActive="active-link">
+        <mat-icon>format_list_bulleted</mat-icon>Order Details
+      </a>
+
+      <a mat-list-item routerLink="/order-categories" routerLinkActive="active-link">
+        <mat-icon>category</mat-icon>Order Categories
+      </a>
+
+      <a mat-list-item routerLink="/item-list" routerLinkActive="active-link">
+        <mat-icon>list</mat-icon>Items
+      </a>
+
+      <!-- <a mat-list-item routerLink="/reviews" routerLinkActive="active-link">
+            <mat-icon>rate_review</mat-icon>Reviews
+        </a> -->
+
+      <a mat-list-item (click)="logout()" routerLinkActive="active-link">
+        <mat-icon>exit_to_app</mat-icon> Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>In House Order Management</span>
+      <span class="spacer"></span>
+
+      <!-- <button mat-icon-button aria-label="Cart" (click)="openCart()">
+        <mat-icon>shopping_cart</mat-icon>
+      </button> -->
+    </mat-toolbar>
+    <div>
+      <button mat-icon-button class="add-button" routerLink="/supplier" (click)="onAddItem()"
+        matTooltip="Place new order" matTooltipPosition="above" matTooltipShowDelay="500">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="table-container">
+      <table mat-table [dataSource]="orders" matSort class="mat-elevation-z8">
+        <!-- Item Name Column -->
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+          <td mat-cell *matCellDef="let order"> {{ order.itemName }} </td>
+        </ng-container>
+
+        <!-- Supplier Name Column -->
+        <ng-container matColumnDef="supplierName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Name </th>
+          <td mat-cell *matCellDef="let order"> {{ order.supplierName }} </td>
+        </ng-container>
+
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+          <td mat-cell *matCellDef="let order"> {{ order.quantity }} </td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+          <td mat-cell *matCellDef="let order"> {{ order.price | currency }} </td>
+        </ng-container>
+
+        <!-- Delivery Date Column -->
+        <ng-container matColumnDef="deliveryDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Delivery Date </th>
+          <td mat-cell *matCellDef="let order"> {{ order.deliveryDate | date:'shortDate' }} </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+          <td mat-cell *matCellDef="let order"> {{ order.status }} </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,50 @@
+<!-- page content start -->
+<div class="container mt-5">
+  <div class="row">
+
+    <!-- Add task section -->
+    <div class=" add-task col-md-6 col-s-12">
+      <!-- title -->
+      <h2 class="text-left"><b>Add a Task</b></h2>
+
+      <!-- title feild -->
+      <mat-form-field class="w-100">
+        <mat-label>Title</mat-label>
+        <input matInput name="tasktitle" [(ngModel)]="taskTitle">
+      </mat-form-field>
+
+      <!-- description feild -->
+      <mat-form-field class="w-100 mt-2">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="3" name="taskdescription" [(ngModel)]="taskDescription"></textarea>
+      </mat-form-field>
+
+      <!-- add btn -->
+      <div class="btn-class">
+        <button mat-raised-button class="btn-add" (click)="addtask()">Add</button>
+      </div>
+    </div>
+
+    <!-- Task List only 5 rows-->
+    <div class=" list-task col-md-6 col-s-12">
+
+      <!-- single card -->
+      <div *ngFor="let task of limitedTasks" class="task-card">
+        <div class="content-div">
+          <div class="inner-content-div">
+
+            <!-- card title -->
+            <h2 class="fw-bold">{{ task.title }}</h2>
+
+            <!-- card description -->
+            <p><b>{{ task.description }}</b></p>
+          </div>
+
+          <!-- task done btn -->
+          <button class="btn-done" (click)="updatetask(task)">Done</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

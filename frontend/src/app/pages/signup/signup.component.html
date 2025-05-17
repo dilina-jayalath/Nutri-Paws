@@ -1,0 +1,133 @@
+<div class="signup-container">
+  <div class="signup-card">
+    <div class="signup-header">
+      <div class="logo-container">
+        <mat-icon class="logo-icon">person_add</mat-icon>
+        <h1>Create Your Account</h1>
+      </div>
+      <p class="subtitle">Join us to start shopping</p>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSignup()" class="signup-form">
+      <!-- Username Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" required>
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="signupForm.get('username')?.hasError('required')">
+            Username is required
+          </mat-error>
+          <mat-error *ngIf="signupForm.get('username')?.hasError('minlength')">
+            Username must be at least 3 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-icon matSuffix>alternate_email</mat-icon>
+          <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="signupForm.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-hint>At least 8 characters with a number and special character</mat-hint>
+          <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="signupForm.get('password')?.hasError('pattern')">
+            Password must contain at least one number and one special character
+          </mat-error>
+          <mat-error *ngIf="signupForm.get('password')?.hasError('minlength')">
+            Password must be at least 8 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" required>
+          <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility()" type="button">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="signupForm.get('confirmPassword')?.hasError('required')">
+            Please confirm your password
+          </mat-error>
+          <mat-error *ngIf="signupForm.hasError('passwordMismatch')">
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Address Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Address</mat-label>
+          <textarea matInput formControlName="address" required></textarea>
+          <mat-icon matSuffix>home</mat-icon>
+          <mat-error *ngIf="signupForm.get('address')?.hasError('required')">
+            Address is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Contact Number Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Contact Number</mat-label>
+          <input matInput formControlName="contactNumber" required>
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-error *ngIf="signupForm.get('contactNumber')?.hasError('required')">
+            Contact number is required
+          </mat-error>
+          <mat-error *ngIf="signupForm.get('contactNumber')?.hasError('pattern')">
+            Please enter a valid phone number
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Terms and Conditions Checkbox -->
+      <div class="form-field terms-checkbox">
+        <mat-checkbox formControlName="terms" required>
+          I agree to the <a href="#" class="text-link">Terms and Conditions</a>
+        </mat-checkbox>
+        <mat-error *ngIf="signupForm.get('terms')?.hasError('required')" class="checkbox-error">
+          You must accept the terms and conditions
+        </mat-error>
+      </div>
+
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" class="signup-button" type="submit" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Create Account</span>
+        <mat-spinner *ngIf="isLoading" diameter="24" strokeWidth="3"></mat-spinner>
+      </button>
+    </form>
+
+    <!-- Already have account Link -->
+    <div class="login-link">
+      Already have an account? <a (click)="openLogin()" class="text-link">Sign in</a>
+    </div>
+  </div>
+
+  <!-- Background Decoration (same as login) -->
+  <div class="decoration-circle circle-1"></div>
+  <div class="decoration-circle circle-2"></div>
+</div>

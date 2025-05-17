@@ -1,0 +1,95 @@
+//  full viewport height for main container
+.container {
+  height: 100vh !important;
+}
+
+// container of btn, aling btn to right
+.btn-class {
+  text-align: right;
+  width: 100% !important;
+}
+
+// style for the add task btn
+.btn-add {
+  background-color: #0000ff !important;
+  color: aliceblue !important;
+  width: 100px !important;
+  height: 40px !important;
+  align-self: flex-end !important;
+}
+
+// style for the done task btn
+.btn-done {
+  background-color: #d6d6d6 !important;
+  color: rgb(0, 0, 0) !important;
+  width: 100px !important;
+  height: 35px !important;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 12px !important;
+}
+
+// style for the done task btn
+.btn-done:hover {
+  background-color: #cdcdcd !important;
+  box-shadow: 0 4px 8px rgba(149, 149, 149, 0.2);
+}
+
+// flex layout for the content of card
+.content-div {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 80% !important;
+  background-color: #d6d6d6;
+  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
+  box-shadow: 0 4px 8px rgba(149, 149, 149, 0.2);
+}
+
+// style for inner content of the card
+.inner-content-div {
+  width: 100% !important;
+  padding: 10px !important;
+}
+
+// add  vertical li0ne
+.add-task {
+  border-right: 2px solid black;
+  padding-right: 20px;
+  align-items: center !important;
+  justify-content: center !important;
+  padding-right: 100px;
+  margin-bottom: 100px;
+}
+
+// colomn layout for the vartical alignment
+.list-task {
+  height: 90vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  // justify-content: space-evenly !important;
+  padding-left: 100px;
+}
+
+// style of task card
+.task-card {
+  display: flex !important;
+  flex-direction: column !important;
+  // flex-grow: 1 !important;
+  height: 15vh !important;
+}
+
+// media quary for small screens
+@media (max-width: 767px) {
+  .add-task {
+    border-right: none !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .list-task {
+    padding-left: 0 !important;
+  }
+}

@@ -1,0 +1,27 @@
+<!-- view-item-dialog.component.html -->
+<div class="item-details-container">
+  <h2 mat-dialog-title>{{data.itemName}}</h2>
+  <mat-dialog-content>
+    <div class="detail-row">
+      <img [src]="data.emgUrl || 'assets/uploads/image3.jpg'" alt="{{data.itemName}}" class="detail-image">
+    </div>
+    <div class="detail-row">
+      <strong>Description:</strong> {{data.description || 'No description available'}}
+    </div>
+    <div class="detail-row">
+      <strong>Price:</strong> Rs {{data.price | number:'1.2-2'}}
+    </div>
+    <div class="detail-row">
+      <strong>Stock:</strong> {{data.stock}}
+    </div>
+    <div class="detail-row">
+      <strong>Created:</strong> {{data.createdAt | date}}
+    </div>
+    <div class="detail-row" *ngIf="data.updatedAt">
+      <strong>Last Updated:</strong> {{data.updatedAt | date}}
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</div>

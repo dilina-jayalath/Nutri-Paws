@@ -1,0 +1,77 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- Side Navigation -->
+    <mat-sidenav #sidenav mode="side" opened>
+      <!-- Logo Section -->
+      <div class="logo-container">
+        <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo">
+      </div>
+
+      <mat-nav-list>
+        <a mat-list-item routerLink="/stores" routerLinkActive="active-link">
+          <mat-icon>dashboard</mat-icon> Dashboard
+        </a>
+        <a mat-list-item routerLink="/manage-inventory" routerLinkActive="active-link">
+          <mat-icon>inventory</mat-icon> Manage Inventory
+        </a>
+
+        <a mat-list-item routerLink="/in-house-orders" routerLinkActive="active-link">
+          <mat-icon>list</mat-icon> In House Orders
+        </a>
+
+        <a mat-list-item routerLink="/customer-orders" routerLinkActive="active-link">
+          <mat-icon>insert_invitation</mat-icon> customer Orders
+        </a>
+
+        <!-- <a mat-list-item (click)="logout()" routerLinkActive="active-link">
+            <mat-icon>exit_to_app</mat-icon> Logout
+        </a> -->
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Manage Inventory</span>
+        </mat-toolbar>
+
+        <!-- <div class="search-container">
+            <mat-form-field appearance="outline">
+                <mat-label>Search Items</mat-label>
+                <input matInput [(ngModel)]="searchTerm" (input)="filterItems()" placeholder="Enter item name">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div> -->
+
+        <div *ngFor="let category of categories" class="category-container">
+            <!-- <h2 *ngIf="category.displayItems.length>0">{{ category.name }}</h2> -->
+            <h2>{{ category.name }}</h2>
+            <div class="items-grid">
+              <mat-card *ngFor="let item of category.displayItems" class="item-card">
+                <div class="item-img-box">
+                  <img [src]="item.emgUrl" alt="{{ item.label }}" />
+                </div>
+                <p>{{ item.itemName }}</p>
+                <p>Available Quantuity: {{ item.stock }}</p>
+                <p>Description: {{ item.description }}</p>
+
+                <button mat-icon-button (click)="editItem(item, category)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+
+                  <button mat-icon-button (click)="deleteItem(item)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+              </mat-card>
+            </div>
+
+            <!-- 'See More' Button -->
+            <!-- <div class="see-more-container">
+              <button *ngIf="category.items.length > 5" mat-button color="accent" (click)="loadMoreItems(category)">
+                See More
+              </button>
+            </div> -->
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

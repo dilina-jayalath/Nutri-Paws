@@ -1,0 +1,138 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side Navigation -->
+  <mat-sidenav #sidenav mode="side" opened>
+    <!-- Logo Section -->
+    <div class="logo-container">
+      <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo">
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/order-payments" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+      <!-- <a mat-list-item routerLink="/manage-inventory" routerLinkActive="active-link">
+          <mat-icon>inventory</mat-icon>Inventory Details
+        </a> -->
+      <a mat-list-item routerLink="/payments" routerLinkActive="active-link">
+        <mat-icon>credit_card</mat-icon>Payment Details
+      </a>
+
+      <!-- <a mat-list-item routerLink="/user-roles" routerLinkActive="active-link">
+        <mat-icon>supervised_user_circle</mat-icon>User Roles
+      </a> -->
+
+      <a mat-list-item routerLink="/system-users" routerLinkActive="active-link">
+        <mat-icon>supervised_user_circle</mat-icon>System Users
+      </a>
+
+
+      <a mat-list-item (click)="showSubOrders = !showSubOrders">
+        <mat-icon>format_list_bulleted</mat-icon> Order Details
+        <mat-icon class="expand-icon">{{ showSubOrders ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </a>
+      <div *ngIf="showSubOrders" class="sub-nav">
+        <a mat-list-item routerLink="/customer-orders-new" routerLinkActive="active-link">
+          <mat-icon>hourglass_empty</mat-icon> Customer Orders
+        </a>
+        <a mat-list-item routerLink="/supplier-orders-new" routerLinkActive="active-link">
+          <mat-icon>check_circle</mat-icon> Supplier Orders
+        </a>
+      </div>
+
+
+      <a mat-list-item routerLink="/item-list" routerLinkActive="active-link">
+        <mat-icon>list</mat-icon>Items
+      </a>
+
+      <!-- <a mat-list-item routerLink="/reviews" routerLinkActive="active-link">
+            <mat-icon>rate_review</mat-icon>Reviews
+        </a> -->
+
+      <a mat-list-item (click)="logout()" routerLinkActive="active-link">
+        <mat-icon>exit_to_app</mat-icon> Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Payment Management</span>
+      <span class="spacer"></span>
+
+      <!-- <button mat-icon-button aria-label="Cart" (click)="openCart()">
+        <mat-icon>shopping_cart</mat-icon>
+      </button> -->
+    </mat-toolbar>
+    <div class="table-container">
+      <table mat-table [dataSource]="orders" matSort class="mat-elevation-z8">
+
+        <!-- Item Name Column -->
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+          <td mat-cell *matCellDef="let order"> {{ order.itemName }} </td>
+        </ng-container>
+
+        <!-- Supplier Name Column -->
+        <ng-container matColumnDef="supplierName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Name </th>
+          <td mat-cell *matCellDef="let order"> {{ order.supplierName }} </td>
+        </ng-container>
+
+        <!-- Bought Unit Price Column -->
+        <ng-container matColumnDef="boughtUnitPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Bought Unit Price </th>
+          <td mat-cell *matCellDef="let order"> {{ order.boughtUnitPrice | currency }} </td>
+        </ng-container>
+
+        <!-- Sold Unit Price Column -->
+        <ng-container matColumnDef="soldUnitPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sold Unit Price </th>
+          <td mat-cell *matCellDef="let order"> {{ order.soldUnitPrice | currency }} </td>
+        </ng-container>
+
+        <!-- Bought Item Count -->
+        <ng-container matColumnDef="boughtItemCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Bought Count </th>
+          <td mat-cell *matCellDef="let order"> {{ order.boughtItemCount }} </td>
+        </ng-container>
+
+        <!-- Sold Item Count -->
+        <ng-container matColumnDef="soldItemCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sold Count </th>
+          <td mat-cell *matCellDef="let order"> {{ order.soldItemCount }} </td>
+        </ng-container>
+
+        <!-- Total Bought Price -->
+        <ng-container matColumnDef="totalBoughtPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Bought Price </th>
+          <td mat-cell *matCellDef="let order"> {{ order.totalBoughtPrice | currency }} </td>
+        </ng-container>
+
+        <!-- Total Sold Price -->
+        <ng-container matColumnDef="totalSoldPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Sold Price </th>
+          <td mat-cell *matCellDef="let order"> {{ order.totalSoldPrice | currency }} </td>
+        </ng-container>
+
+        <!-- Profit -->
+        <ng-container matColumnDef="profit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Profit </th>
+          <td mat-cell *matCellDef="let order"
+            [ngClass]="{'profit-positive': order.profit >= 0, 'profit-negative': order.profit < 0}">
+            {{ order.profit | currency }}
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

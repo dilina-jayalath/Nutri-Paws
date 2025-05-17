@@ -1,0 +1,100 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- Side Navigation -->
+    <mat-sidenav #sidenav mode="side" opened>
+      <!-- Logo Section -->
+      <div class="logo-container">
+        <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo">
+      </div>
+
+      <mat-nav-list>
+        <a mat-list-item routerLink="/stores" routerLinkActive="active-link">
+          <mat-icon>dashboard</mat-icon> Dashboard
+        </a>
+        <a mat-list-item routerLink="/manage-inventory" routerLinkActive="active-link">
+          <mat-icon>inventory</mat-icon> Manage Inventory
+        </a>
+
+        <a mat-list-item routerLink="/in-house-orders" routerLinkActive="active-link">
+          <mat-icon>list</mat-icon> In House Orders
+        </a>
+
+        <a mat-list-item routerLink="/customer-orders" routerLinkActive="active-link">
+          <mat-icon>insert_invitation</mat-icon> customer Orders
+        </a>
+
+        <!-- <a mat-list-item (click)="logout()" routerLinkActive="active-link">
+            <mat-icon>exit_to_app</mat-icon> Logout
+        </a> -->
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>Customer Order Management</span>
+        </mat-toolbar>
+
+        <div class="orders-container">
+            <mat-table [dataSource]="orders" class="mat-elevation-z8">
+                <!-- Customer Name Column -->
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+                    <mat-cell *matCellDef="let order"> {{ order.orderId }} </mat-cell>
+                </ng-container>
+
+                <!-- Customer Mobile Column -->
+                <ng-container matColumnDef="customerMobile">
+                    <mat-header-cell *matHeaderCellDef> Customer Mobile </mat-header-cell>
+                    <mat-cell *matCellDef="let order"> {{ order.mobile_no }} </mat-cell>
+                </ng-container>
+
+                <!-- Customer Address Column -->
+                <ng-container matColumnDef="customerAddress">
+                    <mat-header-cell *matHeaderCellDef> Customer Address </mat-header-cell>
+                    <mat-cell *matCellDef="let order"> {{ order.address }} </mat-cell>
+                </ng-container>
+
+                <!-- Item Name Column -->
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                    <mat-cell *matCellDef="let order"> {{ order.price }} </mat-cell>
+                </ng-container>
+
+                <!-- Request Quantity Column -->
+                <ng-container matColumnDef="requestQuantity">
+                    <mat-header-cell *matHeaderCellDef> Request Quantity </mat-header-cell>
+                    <mat-cell *matCellDef="let order"> {{ order.itemCount }} </mat-cell>
+                </ng-container>
+
+                <!-- Available Quantity Column -->
+                <!-- <ng-container matColumnDef="availableQuantity">
+                    <mat-header-cell *matHeaderCellDef> Available Quantity </mat-header-cell>
+                    <mat-cell *matCellDef="let order"> {{ order.availableQuantity }} </mat-cell>
+                </ng-container> -->
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-cell *matCellDef="let order">
+                        <mat-form-field appearance="fill" class="status-dropdown">
+                            <mat-select [value]="order.status" (selectionChange)="updateOrderStatus(order, $event.value)">
+                              <mat-option *ngFor="let status of statusOptions" [value]="status">
+                                {{ status }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        <button mat-icon-button color="accent" (click)="viewOrder(order)" matTooltip="View">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Table Header and Rows -->
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -1,0 +1,77 @@
+<mat-sidenav-container class="sidenav-container modern-container">
+  <!-- Side Navigation -->
+  <mat-sidenav #sidenav mode="side" opened class="modern-sidenav">
+    <!-- Logo Section -->
+    <button mat-icon-button class="back-button" routerLink="/supplier">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="modern-toolbar">
+      <span class="toolbar-title">My Order Management</span>
+    </mat-toolbar>
+
+    <div class="table-container modern-table-container">
+      <table mat-table [dataSource]="orders" matSort class="mat-elevation-z8 modern-table">
+        <!-- Order Id Column -->
+        <ng-container matColumnDef="orderId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
+          <td mat-cell *matCellDef="let order">{{ order.orderId }}</td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+          <td mat-cell *matCellDef="let order">{{ order.address }}</td>
+        </ng-container>
+
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="itemCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Quantity</th>
+          <td mat-cell *matCellDef="let order">{{ order.itemCount }}</td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Price</th>
+          <td mat-cell *matCellDef="let order">Rs {{ order.price }}</td>
+        </ng-container>
+
+        <!-- Mobile No Column -->
+        <ng-container matColumnDef="mobileNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No</th>
+          <td mat-cell *matCellDef="let order">{{ order.mobile_no }}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let order">
+            <mat-form-field appearance="outline" class="status-dropdown modern-status">
+              <mat-select [value]="order.status" (selectionChange)="updateOrderStatus(order, $event.value)">
+                <mat-option *ngFor="let status of statusOptions" [value]="status">
+                  {{ status }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let order">
+            <button mat-icon-button color="accent" (click)="viewOrder(order)" matTooltip="View Order Details">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></tr>
+      </table>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,117 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side Navigation -->
+  <mat-sidenav #sidenav mode="side" opened>
+    <!-- Logo Section -->
+    <div class="logo-container">
+      <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo">
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/order-payments" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+
+      <a mat-list-item (click)="showPayments = !showPayments">
+        <mat-icon>credit_card</mat-icon>Payment Details
+        <mat-icon class="expand-icon">{{ showPayments ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </a>
+      <div *ngIf="showPayments" class="sub-nav">
+        <a mat-list-item routerLink="/customer-payments" routerLinkActive="active-link">
+          <mat-icon>hourglass_empty</mat-icon> Customer Payments
+        </a>
+        <a mat-list-item routerLink="/supplier-payments" routerLinkActive="active-link">
+          <mat-icon>check_circle</mat-icon> Supplier pyments
+        </a>
+      </div>
+
+      <a mat-list-item routerLink="/system-users" routerLinkActive="active-link">
+        <mat-icon>supervised_user_circle</mat-icon>System Users
+      </a>
+
+
+      <a mat-list-item (click)="showSubOrders = !showSubOrders">
+        <mat-icon>format_list_bulleted</mat-icon> Order Details
+        <mat-icon class="expand-icon">{{ showSubOrders ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </a>
+      <div *ngIf="showSubOrders" class="sub-nav">
+        <a mat-list-item routerLink="/customer-orders-new" routerLinkActive="active-link">
+          <mat-icon>hourglass_empty</mat-icon> Customer Orders
+        </a>
+        <a mat-list-item routerLink="/supplier-orders-new" routerLinkActive="active-link">
+          <mat-icon>check_circle</mat-icon> Supplier Orders
+        </a>
+      </div>
+
+
+      <a mat-list-item routerLink="/order-categories" routerLinkActive="active-link">
+        <mat-icon>category</mat-icon>Order Categories
+      </a>
+
+      <a mat-list-item routerLink="/item-list" routerLinkActive="active-link">
+        <mat-icon>list</mat-icon>Items
+      </a>
+
+      <!-- <a mat-list-item routerLink="/reviews" routerLinkActive="active-link">
+            <mat-icon>rate_review</mat-icon>Reviews
+        </a> -->
+
+      <a mat-list-item (click)="logout()" routerLinkActive="active-link">
+        <mat-icon>exit_to_app</mat-icon> Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>In House Order Management</span>
+
+      <span class="spacer"></span>
+
+      <!-- <button mat-icon-button aria-label="Cart" (click)="openCart()">
+        <mat-icon>shopping_cart</mat-icon>
+      </button> -->
+    </mat-toolbar>
+    <div>
+      <button mat-icon-button class="add-button" (click)="onAddItem()" matTooltip="Add new Category"
+        matTooltipPosition="above" matTooltipShowDelay="500">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="table-container">
+      <table mat-table [dataSource]="categories" matSort class="mat-elevation-z8">
+        <!-- Item Name Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+          <td mat-cell *matCellDef="let cate"> {{ cate.categoryId }} </td>
+        </ng-container>
+
+        <!-- Supplier Name Column -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+          <td mat-cell *matCellDef="let cate"> {{ cate.name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+          <mat-cell *matCellDef="let cate">
+
+            <button mat-icon-button color="black" (click)="editcategory(cate)" matTooltip="View">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button color="black" (click)="deletecategory(cate)" matTooltip="View">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

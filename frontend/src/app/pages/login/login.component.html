@@ -1,0 +1,75 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-container">
+        <mat-icon class="logo-icon">lock</mat-icon>
+        <h1>Welcome Back</h1>
+      </div>
+      <p class="subtitle">Sign in to continue to your account</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+      <!-- Email Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-icon matSuffix>alternate_email</mat-icon>
+          <mat-error *ngIf="loginForm.get('email')?.invalid">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('password')?.invalid">
+            Password must be at least 6 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Forgot Password Link -->
+      <div class="forgot-password">
+        <a href="#" class="text-link">Forgot password?</a>
+      </div>
+
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" class="login-button" type="submit" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Sign In</span>
+        <mat-spinner *ngIf="isLoading" diameter="24" strokeWidth="3"></mat-spinner>
+      </button>
+    </form>
+
+    <!-- Social Login Options -->
+    <div class="social-login">
+      <p class="divider"><span>OR CONTINUE WITH</span></p>
+      <div class="social-buttons">
+        <button mat-stroked-button class="social-button">
+          <img src="assets/icons/google.svg" alt="Google">
+        </button>
+        <button mat-stroked-button class="social-button">
+          <img src="assets/icons/facebook.svg" alt="Facebook">
+        </button>
+      </div>
+    </div>
+
+    <!-- Sign Up Link -->
+    <div class="signup-link">
+      Don't have an account? <a (click)="openSignUp()" class="text-link">Sign up</a>
+    </div>
+    <div class="signup-link">
+      Are you a seller? <a (click)="openSellerSignUp()" class="text-link">Sign up as seller</a>
+    </div>
+  </div>
+
+  <!-- Background Decoration -->
+  <div class="decoration-circle circle-1"></div>
+  <div class="decoration-circle circle-2"></div>
+</div>

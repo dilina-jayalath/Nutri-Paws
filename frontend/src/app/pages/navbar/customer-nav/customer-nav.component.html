@@ -1,0 +1,74 @@
+<nav class="navbar">
+
+  <!-- WEBSITE NAME -->
+  <div class="logo" (click)="navigateHome()">Nutri Paws</div>
+
+  <!-- NAVIGATION TITLES -->
+  <ul class="nav-links">
+    <li><a routerLink="/customer" [class.active]="isActive('/customer')">Home</a></li>
+    <li><a routerLink="/categories" [class.active]="isActive('/categories')"></a></li>
+    <li><a routerLink="/about" [class.active]="isActive('/about')"></a></li>
+  </ul>
+
+  <!-- SEARCH BAR -->
+  <div class="search-container">
+    <input type="text" placeholder="Search what you looking for!!!" class="search-box" />
+    <mat-icon class="search-icon">search</mat-icon>
+  </div>
+
+  <div class="nav-right-section">
+    <!-- USER PROFILE SECTION -->
+    <div class="user-profile" *ngIf="isLoggedIn" (click)="toggleProfileMenu()">
+      <div class="profile-icon">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <span class="username">{{ getUserName() }}</span>
+      <mat-icon class="dropdown-icon">{{ profileMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+
+      <!-- PROFILE -->
+      <div class="profile-menu" *ngIf="profileMenuOpen" (click)="$event.stopPropagation()">
+        <div class="menu-item" (click)="viewProfile()">
+          <mat-icon>person</mat-icon>
+          <span>My Profile</span>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="menu-item" (click)="viewOrders()">
+          <mat-icon>receipt</mat-icon>
+          <span>My Orders</span>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="menu-item" (click)="viewReports()">
+          <mat-icon>reports</mat-icon>
+          <span>Reports</span>
+        </div>
+
+        <!-- LOGOUT -->
+        <div class="menu-item" (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN BTN -->
+    <button mat-icon-button (click)="openLogin()" *ngIf="!isLoggedIn" class="auth-button">
+      <mat-icon>login</mat-icon>
+      <span class="button-label">Login</span>
+    </button>
+
+    <!-- CART SECTION -->
+    <div class="cart-container" *ngIf="isLoggedIn && (roleName === 'Customer' || roleName === 'Admin')"
+      (click)="openCart()">
+      <mat-icon>shopping_cart</mat-icon>
+      <span class="cart-badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="notifications" *ngIf="isLoggedIn && roleName === 'Supplier'" (click)="openNotifications()">
+      <mat-icon>notifications</mat-icon>
+      <span class="notification-badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+    </div>
+  </div>
+</nav>

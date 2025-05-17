@@ -1,0 +1,95 @@
+<form [formGroup]="paymentForm" (ngSubmit)="submitPayment()" class="payment-form">
+  <h1 class="form-title">Pay Here With CodeLink</h1>
+  <mat-form-field appearance="fill">
+    <mat-label>Card Number</mat-label>
+    <input matInput formControlName="cardNumber" placeholder="1234 5678 9012 3456" maxlength="16" />
+    <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
+      Card number is required
+    </mat-error>
+    <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('pattern')">
+      Must be 16 digits
+    </mat-error>
+  </mat-form-field>
+
+  <div class="expiry-cvn-row">
+    <mat-form-field appearance="fill">
+      <mat-label>Card Holder Name</mat-label>
+      <input matInput formControlName="name" maxlength="16" />
+      <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
+        Card number is required
+      </mat-error>
+      <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('pattern')">
+        Must be 16 digits
+      </mat-error>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="fill">
+            <mat-label>Expiry (MM/YY)</mat-label>
+            <input matInput formControlName="expiry" placeholder="MM/YY" maxlength="5" />
+            <mat-error *ngIf="paymentForm.get('expiry')?.hasError('required')">
+              Expiry date is required
+            </mat-error>
+            <mat-error *ngIf="paymentForm.get('expiry')?.hasError('pattern')">
+              Invalid format. Use MM/YY
+            </mat-error>
+          </mat-form-field> -->
+
+    <mat-form-field appearance="fill">
+      <mat-label>Expiry (MM/YY)</mat-label>
+      <input matInput formControlName="expiry" placeholder="MM/YY" maxlength="5" />
+      <mat-error *ngIf="paymentForm.get('expiry')?.hasError('required')">
+        Expiry date is required
+      </mat-error>
+      <mat-error *ngIf="paymentForm.get('expiry')?.hasError('pattern')">
+        Invalid format. Use MM/YY
+      </mat-error>
+      <mat-error *ngIf="paymentForm.get('expiry')?.hasError('expired')">
+        Expiry date must be in the future
+      </mat-error>
+    </mat-form-field>
+
+
+
+  </div>
+
+  <div class="expiry-cvn-row">
+
+    <mat-form-field appearance="fill">
+      <mat-label>CVN</mat-label>
+      <input matInput formControlName="cvn" placeholder="123" maxlength="4" />
+      <mat-error *ngIf="paymentForm.get('cvn')?.hasError('required')">
+        CVN is required
+      </mat-error>
+      <mat-error *ngIf="paymentForm.get('cvn')?.hasError('pattern')">
+        3 digits
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Amount</mat-label>
+    <input matInput type="number" formControlName="amount" placeholder="100.00" min="0.01" step="0.01" />
+    <mat-error *ngIf="paymentForm.get('amount')?.hasError('required')">
+      Amount is required
+    </mat-error>
+    <mat-error *ngIf="paymentForm.get('amount')?.hasError('min')">
+      Must be at least $0.01
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Card Type</mat-label>
+    <mat-select formControlName="cardType">
+      <mat-option *ngFor="let ct of cardTypes" [value]="ct.value">
+        {{ ct.display }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">
+    Pay {{ paymentForm.get('amount')?.value | currency:'Rs.' }}
+  </button>
+  <div class="powered-by">
+    Powered by @CodeLinkInternational
+  </div>
+</form>

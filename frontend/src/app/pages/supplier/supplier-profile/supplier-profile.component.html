@@ -1,0 +1,191 @@
+<div class="profile-container" *ngIf="!isLoading; else loading">
+  <!-- Modern floating back button -->
+  <button mat-fab extended color="primary" class="back-button" routerLink="/supplier">
+    <mat-icon>arrow_back</mat-icon>
+    Back
+  </button>
+
+  <div class="profile-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1>My Profile</h1>
+        <p class="subtitle">Manage your personal information and preferences</p>
+      </div>
+      <div class="action-buttons">
+        <button *ngIf="!isEditing" mat-stroked-button color="primary" (click)="toggleEdit()" class="edit-btn">
+          <mat-icon>edit</mat-icon> Edit Profile
+        </button>
+        <div *ngIf="isEditing" class="edit-actions">
+          <button mat-stroked-button color="warn" (click)="toggleEdit()" class="cancel-btn">
+            <mat-icon>close</mat-icon> Cancel
+          </button>
+          <button mat-raised-button color="primary" (click)="updateProfile()" class="save-btn">
+            <mat-icon>save</mat-icon> Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-sidebar">
+      <div class="user-card">
+        <div class="avatar-container">
+          <div class="avatar-wrapper">
+            <div class="avatar-circle">
+              <mat-icon class="avatar-icon">account_circle</mat-icon>
+            </div>
+            <div *ngIf="isEditing" class="avatar-edit">
+              <mat-icon class="edit-icon">photo_camera</mat-icon>
+              <input type="file" accept="image/*" (change)="onFileSelected($event)" class="file-input">
+            </div>
+          </div>
+          <h2 class="user-name">{{ profileForm.value.fName }} {{ profileForm.value.lName }}</h2>
+          <p class="user-email">{{ profileForm.value.email }}</p>
+        </div>
+
+        <div class="stats-container">
+          <div class="stat-item">
+            <div class="stat-icon-wrapper">
+              <mat-icon class="stat-icon">shopping_bag</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">24</div>
+              <div class="stat-label">Orders</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon-wrapper">
+              <mat-icon class="stat-icon">favorite</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">12</div>
+              <div class="stat-label">Wishlist</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="danger-zone">
+          <h3 class="danger-title">Danger Zone</h3>
+          <button mat-stroked-button color="warn" class="delete-btn" (click)="openDeleteDialog()">
+            <mat-icon>delete</mat-icon> Delete Account
+          </button>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="profile-details">
+      <form [formGroup]="profileForm" class="profile-form">
+        <!-- Personal Information Section -->
+        <div class="form-section">
+          <div class="section-header">
+            <mat-icon class="section-icon">person</mat-icon>
+            <h3>Personal Information</h3>
+          </div>
+          <div class="form-grid">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Company</mat-label>
+              <input matInput formControlName="companyName" [readonly]="!isEditing">
+              <mat-icon matSuffix>business</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="userName" [readonly]="!isEditing">
+              <mat-icon matSuffix>alternate_email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="fName" [readonly]="!isEditing">
+              <mat-icon matSuffix>badge</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lName" [readonly]="!isEditing">
+              <mat-icon matSuffix>badge</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" type="email" [readonly]="!isEditing">
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Phone</mat-label>
+              <input matInput formControlName="phone" [readonly]="!isEditing">
+              <mat-icon matSuffix>phone</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Address Section -->
+        <div class="form-section">
+          <div class="section-header">
+            <mat-icon class="section-icon">home</mat-icon>
+            <h3>Address</h3>
+          </div>
+          <mat-form-field appearance="outline" class="form-field full-width">
+            <mat-label>Street Address</mat-label>
+            <textarea matInput formControlName="address" rows="2" [readonly]="!isEditing"></textarea>
+          </mat-form-field>
+        </div>
+
+        <!-- Password Section -->
+        <div *ngIf="isEditing" class="form-section">
+          <div class="section-header">
+            <mat-icon class="section-icon">lock</mat-icon>
+            <h3>Change Password</h3>
+          </div>
+          <div class="form-grid">
+            <mat-form-field *ngIf="isCurrentPassw" appearance="outline" class="form-field">
+              <mat-label>Current Password</mat-label>
+              <input matInput formControlName="currentPassword" type="password">
+              <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>New Password</mat-label>
+              <input matInput formControlName="newPassword" type="password">
+              <mat-icon matSuffix>lock</mat-icon>
+              <mat-hint>At least 8 characters with a number and special character</mat-hint>
+              <mat-error *ngIf="profileForm.get('newPassword')?.hasError('pattern')">
+                Password must contain at least one number and one special character
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Confirm New Password</mat-label>
+              <input matInput formControlName="confirmPassword" type="password">
+              <mat-icon matSuffix>lock_reset</mat-icon>
+              <mat-error *ngIf="profileForm.hasError('passwordMismatch')">
+                Passwords do not match
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- About Me Section -->
+        <div class="form-section">
+          <div class="section-header">
+            <mat-icon class="section-icon">info</mat-icon>
+            <h3>About Me</h3>
+          </div>
+          <mat-form-field appearance="outline" class="form-field full-width">
+            <mat-label>Bio</mat-label>
+            <textarea matInput formControlName="bio" rows="4" [readonly]="!isEditing"></textarea>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <mat-spinner diameter="64" color="accent"></mat-spinner>
+    <p>Loading your profile...</p>
+  </div>
+</ng-template>

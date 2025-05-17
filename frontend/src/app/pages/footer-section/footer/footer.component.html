@@ -1,0 +1,76 @@
+<!-- src/app/footer/footer.component.html -->
+<footer class="footer bg-dark text-white pt-5 pb-4" *ngIf="companyInfo">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Company Info -->
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-brand mb-3">
+          <h4 class="text-primary fw-bold">{{ companyInfo.companyName }}</h4>
+        </div>
+        <div class="footer-contact">
+          <ul class="list-unstyled">
+            <li class="mb-2 d-flex align-items-start">
+              <i class="bi bi-geo-alt-fill me-2 mt-1 text-primary"></i>
+              <span>{{ companyInfo.address }}</span>
+            </li>
+            <li class="mb-2 d-flex align-items-start">
+              <i class="bi bi-telephone-fill me-2 mt-1 text-primary"></i>
+              <span>{{ companyInfo.phone }}</span>
+            </li>
+            <li class="mb-2 d-flex align-items-start">
+              <i class="bi bi-envelope-fill me-2 mt-1 text-primary"></i>
+              <a href="mailto:{{ companyInfo.email }}" class="text-white text-decoration-none">{{ companyInfo.email
+                }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-lg-2 col-md-6">
+        <h5 class="text-uppercase fw-bold mb-4">Quick Links</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a routerLink="/" class="text-white text-decoration-none hover-primary">Home</a></li>
+          <li class="mb-2"><a routerLink="/about" class="text-white text-decoration-none hover-primary">About Us</a>
+          </li>
+          <li class="mb-2"><a routerLink="/services" class="text-white text-decoration-none hover-primary">Services</a>
+          </li>
+          <li class="mb-2"><a routerLink="/contact" class="text-white text-decoration-none hover-primary">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Social Media -->
+      <div class="col-lg-4 col-md-6">
+        <h5 class="text-uppercase fw-bold mb-4">Follow Us</h5>
+        <div class="social-links d-flex flex-wrap gap-3">
+          <a *ngFor="let link of socialLinks" [href]="link.url" target="_blank" rel="noopener noreferrer"
+            class="social-icon rounded-circle d-flex align-items-center justify-content-center"
+            [attr.aria-label]="link.key | titlecase">
+            <i [class]="'bi bi-' + link.key"></i>
+          </a>
+        </div>
+
+        <!-- Newsletter (optional) -->
+        <div class="mt-4">
+          <h6 class="mb-3">Subscribe to our newsletter</h6>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Your email">
+            <button class="btn btn-primary" type="button">Subscribe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="copyright-text text-center pt-3 border-top border-secondary">
+          <p class="mb-0 small">
+            {{ companyInfo.copyrightText.replace('2023', currentYear.toString()) }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,184 @@
+/* Add these styles to your existing SCSS */
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: translateX(-2px);
+  }
+}
+
+.profile-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    color: #2d3748;
+  }
+}
+
+.profile-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+}
+
+.profile-sidebar {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: fit-content;
+}
+
+.avatar-upload {
+  .avatar-preview {
+    width: 180px;
+    height: 180px;
+    border: 3px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+    .avatar-overlay {
+      background: rgba(74, 85, 104, 0.7);
+
+      mat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+      }
+
+      span {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+.profile-stats {
+  .stat-item {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background: white;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      background: #edf2f7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+
+      mat-icon {
+        color: #4a5568;
+      }
+    }
+
+    .stat-value {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #2d3748;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #718096;
+    }
+  }
+}
+
+.delete-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  padding: 8px 0;
+}
+
+.profile-details {
+  .form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      color: #2d3748;
+
+      mat-icon {
+        margin-right: 10px;
+        color: #4a5568;
+      }
+    }
+
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-content {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-sidebar {
+    order: 2;
+  }
+
+  .back-button {
+    top: 10px;
+    left: 10px;
+  }
+}
+
+.password-fields {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.password-hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: -15px;
+  margin-bottom: 10px;
+}

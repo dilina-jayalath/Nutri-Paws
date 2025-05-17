@@ -1,0 +1,122 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side Navigation -->
+
+  <mat-sidenav #sidenav mode="side" opened class="modern-sidenav">
+    <!-- Logo Section -->
+    <button mat-icon-button class="back-button" routerLink="/order-payments">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-sidenav>
+
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Payments Reports</span>
+
+      <span class="spacer"></span>
+    </mat-toolbar>
+
+    <div class="content">
+      <mat-tab-group>
+        <!-- Tab 1: Inventory Stock -->
+        <mat-tab label="Customer Payments">
+          <div class="container">
+            <h2 class="center-title">Customer Payments</h2>
+            <!-- Placeholder table -->
+            <div class="scrollable-table-container">
+              <button mat-flat-button color="primary" (click)="exportToPDF()" style="margin-bottom: 10px;">
+                <mat-icon>download</mat-icon> Export to PDF
+              </button>
+              <div class="table-container modern-table-container">
+                <table mat-table [dataSource]="pendingOrders" matSort class="mat-elevation-z8 modern-table">
+                  <!--Item name  -->
+                  <ng-container matColumnDef="orderId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>order id</th>
+                    <td mat-cell *matCellDef="let pendingOrders">{{ pendingOrders.orderId }}</td>
+                  </ng-container>
+
+                  <!-- Item Price -->
+                  <ng-container matColumnDef="address">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+                    <td mat-cell *matCellDef="let pendingOrders">{{ pendingOrders.address }}</td>
+                  </ng-container>
+
+                  <!-- Item Stock -->
+                  <ng-container matColumnDef="mobile">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No</th>
+                    <td mat-cell *matCellDef="let pendingOrders">{{ pendingOrders.mobile }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment</th>
+                    <td mat-cell *matCellDef="let pendingOrders">{{ pendingOrders.price }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                    <td mat-cell *matCellDef="let pendingOrders">{{ pendingOrders.status }}</td>
+                  </ng-container>
+
+                  <!-- Header and Row Definitions -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Tab 2: Monthly Orders -->
+        <mat-tab label="Supplier Payments">
+          <div class="container">
+            <h2 class="center-title">Supplier Payments</h2>
+            <!-- Placeholder monthly orders table -->
+            <div class="scrollable-table-container">
+              <button mat-flat-button color="primary" (click)="exportToPDF1()" style="margin-bottom: 10px;">
+                <mat-icon>download</mat-icon> Export to PDF
+              </button>
+
+              <table mat-table [dataSource]="deleverdOrders" matSort class="mat-elevation-z8 modern-table">
+                <!--Item name  -->
+                <ng-container matColumnDef="orderId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Order id</th>
+                  <td mat-cell *matCellDef="let deleverdOrders">{{ deleverdOrders.orderId }}</td>
+                </ng-container>
+
+                <!-- Item Price -->
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+                  <td mat-cell *matCellDef="let deleverdOrders">{{ deleverdOrders.address }}</td>
+                </ng-container>
+
+                <!-- Item Stock -->
+                <ng-container matColumnDef="mobile">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No</th>
+                  <td mat-cell *matCellDef="let deleverdOrders">{{ deleverdOrders.mobile }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+                  <td mat-cell *matCellDef="let deleverdOrders">{{ deleverdOrders.price }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                  <td mat-cell *matCellDef="let deleverdOrders">{{ deleverdOrders.status }}</td>
+                </ng-container>
+
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns2" class="mat-header"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="mat-row"></tr>
+              </table>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,84 @@
+.sidenav-container {
+  height: 100vh;
+  background: #f5f5f5;
+}
+
+.modern-sidenav {
+  width: 240px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+  .logo-container {
+    padding: 16px;
+    text-align: center;
+
+    .logo {
+      width: 120px;
+      height: auto;
+    }
+  }
+
+  .mat-list-item {
+    margin-bottom: 4px;
+    border-radius: 8px;
+
+    &.active-link {
+      background-color: #e3f2fd;
+      font-weight: 600;
+    }
+
+    .mat-icon {
+      margin-right: 12px;
+    }
+
+    .nav-text {
+      font-size: 14px;
+    }
+  }
+}
+
+.modern-toolbar {
+  background: #282828;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .toolbar-title {
+    margin-left: 16px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
+
+.modern-table-container {
+  padding: 24px;
+  overflow-x: auto;
+}
+
+.modern-table {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+
+  th.mat-header-cell {
+    background: #f1f1f1;
+    font-weight: bold;
+  }
+
+  td.mat-cell,
+  th.mat-header-cell {
+    padding: 16px;
+  }
+
+  tr.mat-row:hover {
+    background-color: #f9f9f9;
+  }
+}
+
+.status-dropdown {
+  min-width: 150px;
+}
+
+.mat-form-field {
+  width: 100%;
+}

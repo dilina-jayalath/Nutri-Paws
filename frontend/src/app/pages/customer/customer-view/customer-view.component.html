@@ -1,0 +1,106 @@
+<!-- customer-view.component.html -->
+<app-customer-nav></app-customer-nav>
+
+<div class="banner-container">
+
+  <!-- Hero section -->
+  <div class="banner">
+    <img src="../../../../assets/back_copy.jpg" alt="Banner" />
+  </div>
+
+  <!-- Offer section -->
+  <!-- <div class="offers-section">
+    <h3>Special Offers</h3>
+    <p>Up to 50% off on selected items!</p>
+
+    <div class="offer-items">
+      <mat-card *ngFor="let offer of offers" class="offer-item-card">
+        <div class="offer-img-box">
+          <img [src]="offer.imageUrl" alt="{{ offer.name }}" />
+        </div>
+        <p>{{ offer.name }}</p>
+        <p>Discount: {{ offer.discount }}%</p>
+      </mat-card>
+    </div>
+
+    <button mat-button color="accent">Shop Now</button>
+  </div> -->
+</div>
+
+<!-- View All items -->
+<div class="item-grid-container">
+  <div class="item-grid">
+    <div class="item-card" *ngFor="let item of displayedItems"
+      (click)="roleName === 'Customer' && isLoggedIn ? showItemPopup(item) : openLogin()">
+      <img [src]="getImageUrl(item.emgUrl)" alt="{{item.itemName}}" />
+      <h3>{{item.itemName}}</h3>
+      <p>{{item.description}}</p>
+      <span class="price">Rs {{item.price}}</span>
+
+      <!-- Add to Cart Button (only shown when logged in) -->
+      <button mat-raised-button color="primary" class="add-to-cart-btn" *ngIf="isLoggedIn">
+        <mat-icon>add_shopping_cart</mat-icon>
+        Add to Cart
+      </button>
+
+      <!-- Login Prompt (shown when not logged in) -->
+      <div class="login-prompt" *ngIf="!isLoggedIn">
+        <p>Please login to add items to cart</p>
+        <button mat-stroked-button color="primary">
+          Login
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="see-more-container" *ngIf="items.length > initialLimit">
+    <button (click)="seeMoreAllItems()" class="see-more-btn">
+      {{ isExpanded ? 'See Less' : 'See More' }}
+    </button>
+  </div>
+</div>
+
+<div class="home-img">
+  <img src="../../../../assets/home2.jpg" alt="Banner" />
+</div>
+
+<!-- View item by category -->
+<div class="item-grid-container">
+  <div *ngFor="let category of categories" class="category-container">
+    <h2>{{ category.name }}</h2>
+    <div class="item-grid-container">
+      <div class="items-grid">
+        <div class="item-card" *ngFor="let catitem of category.displayItems"
+          (click)="roleName === 'Customer' && isLoggedIn ? showItemPopup(catitem) : openLogin()">
+          <img [src]="getImageUrl(catitem.emgUrl)" alt="{{catitem.itemName}}" />
+          <h3>{{ catitem.itemName }}</h3>
+          <span class="price">Rs {{ catitem.price }}</span>
+          <p>Rating: {{ catitem.ratings }}</p>
+
+          <!-- Add to Cart Button (only shown when logged in) -->
+          <button mat-raised-button color="primary" class="add-to-cart-btn-2" *ngIf="isLoggedIn">
+            <mat-icon>add_shopping_cart</mat-icon>
+            Add to Cart
+          </button>
+
+          <!-- Login Prompt (shown when not logged in) -->
+          <div class="login-prompt" *ngIf="!isLoggedIn">
+            <p>Please login to add items to cart</p>
+            <button mat-stroked-button color="primary">
+              Login
+            </button>
+          </div>
+
+        </div>
+      </div>
+      <div class="see-more-cat-container">
+        <button (click)="seeMoreAllCatItems(category)" class="see-more-cat-btn">
+          {{ category.isExpanded ? 'See Less' : 'See More' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

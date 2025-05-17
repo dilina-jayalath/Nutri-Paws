@@ -1,0 +1,128 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side Navigation -->
+  <mat-sidenav #sidenav mode="side" opened>
+    <!-- Logo Section -->
+    <div class="logo-container">
+      <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo" />
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/stores" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+      <a mat-list-item routerLink="/manage-inventory" routerLinkActive="active-link">
+        <mat-icon>inventory</mat-icon> Manage Inventory
+      </a>
+      <a mat-list-item routerLink="/in-house-orders" routerLinkActive="active-link">
+        <mat-icon>list</mat-icon> In House Orders
+      </a>
+      <a mat-list-item routerLink="/customer-orders" routerLinkActive="active-link">
+        <mat-icon>insert_invitation</mat-icon> Customer Orders
+      </a>
+      <a mat-list-item routerLink="/inventory-report" routerLinkActive="active-link">
+        <mat-icon>report</mat-icon> Report
+      </a>
+      <a mat-list-item (click)="logout()" routerLinkActive="active-link">
+        <mat-icon>exit_to_app</mat-icon> Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Inventory Reports</span>
+
+      <span class="spacer"></span>
+
+      <button mat-icon-button aria-label="Notifications" (click)="openNotifications()">
+        <mat-icon>notifications</mat-icon>
+        <div *ngIf="showNotificattionDot" class="blinking-dot"></div>
+      </button>
+    </mat-toolbar>
+
+    <div class="content">
+      <mat-tab-group>
+        <!-- Tab 1: Inventory Stock -->
+        <mat-tab label="Inventory Stock">
+          <div class="container">
+            <h2 class="center-title">Current Inventory Stock</h2>
+            <!-- Placeholder table -->
+            <div class="scrollable-table-container">
+              <button mat-flat-button color="primary" (click)="exportToPDF()" style="margin-bottom: 10px;">
+                <mat-icon>download</mat-icon> Export to PDF
+              </button>
+              <div class="table-container modern-table-container">
+                <table mat-table [dataSource]="currentInventory" matSort class="mat-elevation-z8 modern-table">
+                  <!--Item name  -->
+                  <ng-container matColumnDef="itemName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Name</th>
+                    <td mat-cell *matCellDef="let currentInventory">{{ currentInventory.itemName }}</td>
+                  </ng-container>
+
+                  <!-- Item Price -->
+                  <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Price</th>
+                    <td mat-cell *matCellDef="let currentInventory">{{ currentInventory.price }}</td>
+                  </ng-container>
+
+                  <!-- Item Stock -->
+                  <ng-container matColumnDef="stock">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
+                    <td mat-cell *matCellDef="let currentInventory">{{ currentInventory.stock }}</td>
+                  </ng-container>
+
+                  <!-- Header and Row Definitions -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Tab 2: Monthly Orders -->
+        <mat-tab label="Monthly Orders">
+          <div class="container">
+            <h2 class="center-title">Monthly Orders Report</h2>
+            <!-- Placeholder monthly orders table -->
+            <div class="scrollable-table-container">
+              <button mat-flat-button color="primary" (click)="exportToPDF1()" style="margin-bottom: 10px;">
+                <mat-icon>download</mat-icon> Export to PDF
+              </button>
+              <div class="table-container modern-table-container">
+
+                <table mat-table [dataSource]="monthlyOrders" matSort class="mat-elevation-z8 modern-table">
+                  <!-- Month -->
+                  <ng-container matColumnDef="month">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Month</th>
+                    <td mat-cell *matCellDef="let monthlyOrders">{{ monthlyOrders.month }}</td>
+                  </ng-container>
+
+                  <!-- Item selling count -->
+                  <ng-container matColumnDef="totalCount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>All Item Selling Count</th>
+                    <td mat-cell *matCellDef="let monthlyOrders">{{ monthlyOrders.totalCount }}</td>
+                  </ng-container>
+
+                  <!-- total Income -->
+                  <ng-container matColumnDef="totalPrice">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Income Item Wise</th>
+                    <td mat-cell *matCellDef="let monthlyOrders">Rs {{ monthlyOrders.totalPrice }}</td>
+                  </ng-container>
+
+                  <!-- Header and Row Definitions -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns2" class="mat-header"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="mat-row"></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,59 @@
+.form-title {
+    text-align: center;
+    font-size: 2rem; /* Large title */
+    font-weight: bold;
+    color: #3f51b5; /* Primary color (you can adjust this based on your design) */
+    margin-bottom: 20px; /* Space below the title */
+  }
+
+  .powered-by {
+    text-align: center; /* Center the text */
+    font-size: 0.9rem; /* Slightly smaller text */
+    color: #888; /* Lighter gray color */
+    margin-top: 20px; /* Adds space between the button and text */
+  }
+
+.payment-form {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  
+    .expiry-cvn-row {
+      display: flex;
+      gap: 12px;
+  
+      mat-form-field {
+        flex: 1;
+      }
+    }
+  
+    button[type="submit"] {
+      margin-top: 8px;
+    }
+
+    :host {
+        display: flex;
+        align-items: center;   /* vertical centering */
+        justify-content: center; /* horizontal centering */
+        height: 100%;          /* ensure it fills the dialog */
+        padding: 24px;         /* dialog padding */
+        box-sizing: border-box;
+      }
+      
+      .payment-form {
+        width: 100%;
+        max-width: 400px;      /* constrain form width */
+      }
+
+      .expiry-cvn-row {
+        display: flex;
+        gap: 16px;
+      
+        .mat-form-field.expanded {
+          flex: 1; /* each field grows equally */
+        }
+      }
+  }
+  

@@ -1,0 +1,138 @@
+<div class="profile-container" *ngIf="!isLoading; else loading">
+  <!-- Back Button Added Here -->
+  <button mat-icon-button class="back-button" routerLink="/customer">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <div class="profile-header">
+    <h1>My Profile</h1>
+    <div class="action-buttons">
+      <button *ngIf="!isEditing" mat-flat-button color="primary" (click)="toggleEdit()">
+        <mat-icon>edit</mat-icon> Edit Profile
+      </button>
+      <button *ngIf="isEditing" mat-flat-button color="warn" (click)="toggleEdit()">
+        <mat-icon>close</mat-icon> Cancel
+      </button>
+      <button *ngIf="isEditing" mat-flat-button color="primary" (click)="updateProfile()">
+        <mat-icon>save</mat-icon> Save Changes
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-sidebar">
+      <div class="avatar-upload">
+        <!-- <div class="avatar-preview">
+          <img [src]="profileImage" alt="Profile Image">
+          <div *ngIf="isEditing" class="avatar-overlay">
+            <mat-icon>camera_alt</mat-icon>
+            <span>Change Photo</span>
+          </div>
+          <input *ngIf="isEditing" type="file" accept="image/*" (change)="onFileSelected($event)">
+        </div> -->
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <div class="stat-icon">
+            <mat-icon>shopping_bag</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">24</span>
+            <span class="stat-label">Orders</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <mat-icon>favorite</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">12</span>
+            <span class="stat-label">Wishlist</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- <button mat-stroked-button color="warn" class="delete-btn" (click)="openDeleteDialog()">
+        <mat-icon>delete_forever</mat-icon> Delete Account
+      </button> -->
+    </div>
+
+    <div class="profile-details">
+      <form [formGroup]="profileForm">
+        <div class="form-section">
+          <h3><mat-icon>person_outline</mat-icon> Personal Information</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="name" [readonly]="!isEditing">
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" [readonly]="!isEditing">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Phone</mat-label>
+            <input matInput formControlName="phone" [readonly]="!isEditing">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-section">
+          <h3><mat-icon>home</mat-icon> Address</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Street Address</mat-label>
+            <textarea matInput formControlName="address" rows="2" [readonly]="!isEditing"></textarea>
+          </mat-form-field>
+        </div>
+
+        <!-- Current Password (only shown when editing) -->
+        <div class="form-section">
+          <h3><mat-icon>lock</mat-icon> Password</h3>
+          <mat-form-field *ngIf="isEditing && showCurrentPassword" appearance="outline" >
+            <mat-label>Current Password</mat-label>
+            <input matInput formControlName="currentPassword" type="password">
+            <mat-icon matSuffix>vpn_key</mat-icon>
+          </mat-form-field>
+
+          <!-- New Password (only shown when editing) -->
+          <mat-form-field *ngIf="isEditing" appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input matInput formControlName="newPassword" type="password">
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-hint>At least 8 characters with a number and special character</mat-hint>
+            <mat-error *ngIf="profileForm.get('newPassword')?.hasError('pattern')">
+              Password must contain at least one number and one special character
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Confirm Password (only shown when editing) -->
+          <mat-form-field *ngIf="isEditing" appearance="outline">
+            <mat-label>Confirm New Password</mat-label>
+            <input matInput formControlName="confirmPassword" type="password">
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error *ngIf="profileForm.hasError('passwordMismatch')">
+              Passwords do not match
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-section">
+          <h3><mat-icon>info</mat-icon> About Me</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Bio</mat-label>
+            <textarea matInput formControlName="bio" rows="4" [readonly]="!isEditing"></textarea>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-spinner">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</ng-template>

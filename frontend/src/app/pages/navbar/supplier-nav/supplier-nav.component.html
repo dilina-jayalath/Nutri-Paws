@@ -1,0 +1,55 @@
+<nav class="navbar">
+
+  <!-- WEBSITE NAME -->
+  <div class="logo" (click)="navigateHome()">Nutri Paws Supplier</div>
+
+  <!-- NAVIGATION TITLES -->
+  <ul class="nav-links">
+    <li><a routerLink="/customer" [class.active]="isActive('/customer')">Home</a></li>
+  </ul>
+
+  <!-- SEARCH BAR -->
+  <div class="search-container">
+    <input type="text" placeholder="Search what you looking for!!!" class="search-box" />
+    <mat-icon class="search-icon">search</mat-icon>
+  </div>
+
+  <div class="nav-right-section">
+    <!-- USER PROFILE SECTION -->
+    <div class="user-profile" *ngIf="isLoggedIn" (click)="toggleProfileMenu()">
+      <div class="menu-item" (click)="viewProfile()">
+        <mat-icon>person</mat-icon>
+        <span>My Profile</span>
+      </div>
+
+      <div class="menu-item" (click)="viewMyOrders()">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Orders</span>
+      </div>
+
+      <div class="menu-item" (click)="viewSupRerports()">
+        <mat-icon>reports</mat-icon>
+        <span>Reports</span>
+      </div>
+
+      <!-- PROFILE -->
+      <!-- LOGOUT -->
+      <div class="menu-item" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </div>
+    </div>
+
+    <!-- LOGIN BTN -->
+    <button mat-icon-button (click)="openLogin()" *ngIf="!isLoggedIn" class="auth-button">
+      <mat-icon>login</mat-icon>
+      <span class="button-label">Login</span>
+    </button>
+
+    <!-- NOTIFICATIONS -->
+    <button mat-icon-button aria-label="Notifications" (click)="openNotifications()">
+      <mat-icon>notifications</mat-icon>
+      <div *ngIf="showNotificattionDot" class="blinking-dot"></div>
+    </button>
+  </div>
+</nav>

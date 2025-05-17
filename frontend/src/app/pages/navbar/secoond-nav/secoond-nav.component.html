@@ -1,0 +1,35 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- Side Navigation -->
+    <mat-sidenav #sidenav mode="side" opened>
+      <!-- Logo Section -->
+      <div class="logo-container">
+        <img src="../../../../assets/logo 1.png" alt="Nutri Paws" class="logo">
+      </div>
+  
+      <mat-nav-list>
+        <a mat-list-item routerLink="/stores" routerLinkActive="active-link">
+          <mat-icon>dashboard</mat-icon> Dashboard
+        </a>
+        <a mat-list-item routerLink="/stores/manage-inventory" routerLinkActive="active-link">
+          <mat-icon>inventory</mat-icon> Manage Inventory
+        </a>
+        <a mat-list-item routerLink="/stores/manage-inventory" routerLinkActive="active-link">
+            <mat-icon>exit_to_app</mat-icon> Logout
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <!-- Main Content -->
+    <mat-sidenav-content>
+      <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Store Management</span>
+      </mat-toolbar>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
