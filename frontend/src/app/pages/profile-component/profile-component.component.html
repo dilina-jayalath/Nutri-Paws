@@ -66,6 +66,12 @@
             <mat-label>Full Name</mat-label>
             <input matInput formControlName="name" [readonly]="!isEditing">
             <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="profileForm.get('name')?.hasError('required')">
+              Name is required
+            </mat-error>
+            <mat-error *ngIf="profileForm.get('name')?.hasError('pattern')">
+              Only letters and spaces are allowed
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">

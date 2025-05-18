@@ -93,18 +93,30 @@
               <mat-label>Username</mat-label>
               <input matInput formControlName="userName" [readonly]="!isEditing">
               <mat-icon matSuffix>alternate_email</mat-icon>
+              <mat-error *ngIf="profileForm.get('userName')?.hasError('required')">
+                Username is required
+              </mat-error>
+              <mat-error *ngIf="profileForm.get('userName')?.hasError('pattern')">
+                Only letters are allowed
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>First Name</mat-label>
               <input matInput formControlName="fName" [readonly]="!isEditing">
               <mat-icon matSuffix>badge</mat-icon>
+              <mat-error *ngIf="profileForm.get('fName')?.hasError('pattern')">
+                Only letters are allowed
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Last Name</mat-label>
               <input matInput formControlName="lName" [readonly]="!isEditing">
               <mat-icon matSuffix>badge</mat-icon>
+              <mat-error *ngIf="profileForm.get('lName')?.hasError('pattern')">
+                Only letters are allowed
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field">

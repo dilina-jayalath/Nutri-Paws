@@ -36,13 +36,6 @@ export class ProfileComponentComponent implements OnInit {
       {
         name: ['', [Validators.required, Validators.pattern(/^[A-Za-z ]+$/)]],
         email: ['', [Validators.required, Validators.email]],
-        // phone: [
-        //   '+94 (71) 574-6038',
-        //   [
-        //     Validators.required,
-        //     Validators.pattern(/^\+?[0-9]{1,4}?[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/)
-        //   ]
-        // ],
         phone: [
           '+94 (71) 574-6038',
           [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
