@@ -34,7 +34,7 @@ export class ProfileComponentComponent implements OnInit {
   ) {
     this.profileForm = this.fb.group(
       {
-        name: ['', [Validators.required]],
+        name: ['', [Validators.required, Validators.pattern(/^[A-Za-z ]+$/)]],
         email: ['', [Validators.required, Validators.email]],
         // phone: [
         //   '+94 (71) 574-6038',

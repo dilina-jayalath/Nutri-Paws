@@ -34,15 +34,15 @@ export class SupplierProfileComponent {
   ) {
     this.profileForm = this.fb.group(
       {
-        userName: ['', [Validators.required]],
+        userName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
         email: ['', [Validators.required, Validators.email]],
         phone: [
           '+94 (71) 574-6038',
           [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
         ],
         address: [''],
-        fName: [''],
-        lName: [''],
+        fName: ['', [Validators.pattern(/^[A-Za-z]+$/)]],
+        lName: ['', [Validators.pattern(/^[A-Za-z]+$/)]],
         companyName: [''],
         currentPassword: [''],
         newPassword: [
