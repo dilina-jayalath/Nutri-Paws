@@ -20,6 +20,10 @@ export class CustomerReportsComponent {
   deleverdOrders: any[] = [];
   showNotificattionDot = false;
   pollingSubscription: Subscription | undefined;
+  selectedOrderType: string = '';
+  isLoading: boolean = false;
+  reportData: any[] = []; // Data to show in the table after "Show Report" click
+  reportShown: boolean = false; // Track if report should be shown
 
   constructor(
     private router: Router,
@@ -124,5 +128,63 @@ export class CustomerReportsComponent {
 
     // Save the PDF
     doc.save('pending-orders.pdf');
+  }
+
+  showReport() {
+    this.isLoading = true;
+    this.reportShown = false;
+
+    // Add a short delay for loading animation UX
+    setTimeout(() => {
+      if (this.selectedOrderType === 'pending') {
+        this.api.getPendingOrders(localStorage.getItem('customerId')).subscribe({
+          next: (response: any) => {
+            this.pendingOrders = response;
+            this.reportData = this.pendingOrders;
+            this.reportShown = true;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.pendingOrders = [];
+            this.reportData = [];
+            this.reportShown = true;
+            this.isLoading = false;
+            Swal.fire('Error While Report Data');
+          },
+        });
+      } else if (this.selectedOrderType === 'delivered') {
+        this.api.getDeleverdOrders(localStorage.getItem('customerId')).subscribe({
+          next: (response: any) => {
+            this.deleverdOrders = response;
+            this.reportData = this.deleverdOrders;
+            this.reportShown = true;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.deleverdOrders = [];
+            this.reportData = [];
+            this.reportShown = true;
+            this.isLoading = false;
+            Swal.fire('Error While Getting Delivered Orders');
+          },
+        });
+      } else {
+        this.reportData = [];
+        this.reportShown = true;
+        this.isLoading = false;
+      }
+    }, 600); // 600ms delay for visible loading animation
+  }
+
+  generateReport() {
+    this.isLoading = true;
+    setTimeout(() => {
+      if (this.selectedOrderType === 'pending') {
+        this.exportToPDF();
+      } else if (this.selectedOrderType === 'delivered') {
+        this.exportToPDF1();
+      }
+      this.isLoading = false;
+    }, 500);
   }
 }
