@@ -27,12 +27,14 @@ export class PaymentGatewayComponent {
 
   ngOnInit(): void {
     this.paymentForm = this.fb.group({
-      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
-      name: ['', Validators.required],
-      // expiry: [
-      //   '',
-      //   [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)],
-      // ],
+      cardNumber: ['', 
+        [Validators.required, 
+        Validators.pattern(/^\d{16}$/),
+      ]],
+      name: ['', [
+        Validators.required,
+        Validators.pattern(/^[A-Za-z ]+$/) // Only letters and spaces allowed
+      ]],
       expiry: [
         '',
         [
@@ -42,7 +44,7 @@ export class PaymentGatewayComponent {
         ],
       ],
       cvn: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
-      amount: ['', [Validators.required, Validators.min(0.01)]],
+      amount: [{ value: '', disabled: true }, [Validators.required, Validators.min(0.01)]],
       cardType: ['visa', Validators.required],
     });
     console.log('editData', this.editData);

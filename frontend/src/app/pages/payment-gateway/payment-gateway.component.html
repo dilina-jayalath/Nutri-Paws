@@ -14,25 +14,14 @@
   <div class="expiry-cvn-row">
     <mat-form-field appearance="fill">
       <mat-label>Card Holder Name</mat-label>
-      <input matInput formControlName="name" maxlength="16" />
-      <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
-        Card number is required
+      <input matInput formControlName="name" maxlength="32" />
+      <mat-error *ngIf="paymentForm.get('name')?.hasError('required')">
+        Card holder name is required
       </mat-error>
-      <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('pattern')">
-        Must be 16 digits
+      <mat-error *ngIf="paymentForm.get('name')?.hasError('pattern')">
+        Only letters and spaces are allowed
       </mat-error>
     </mat-form-field>
-
-    <!-- <mat-form-field appearance="fill">
-            <mat-label>Expiry (MM/YY)</mat-label>
-            <input matInput formControlName="expiry" placeholder="MM/YY" maxlength="5" />
-            <mat-error *ngIf="paymentForm.get('expiry')?.hasError('required')">
-              Expiry date is required
-            </mat-error>
-            <mat-error *ngIf="paymentForm.get('expiry')?.hasError('pattern')">
-              Invalid format. Use MM/YY
-            </mat-error>
-          </mat-form-field> -->
 
     <mat-form-field appearance="fill">
       <mat-label>Expiry (MM/YY)</mat-label>
@@ -47,13 +36,9 @@
         Expiry date must be in the future
       </mat-error>
     </mat-form-field>
-
-
-
   </div>
 
   <div class="expiry-cvn-row">
-
     <mat-form-field appearance="fill">
       <mat-label>CVN</mat-label>
       <input matInput formControlName="cvn" placeholder="123" maxlength="4" />
