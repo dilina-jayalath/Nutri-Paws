@@ -20,6 +20,11 @@ export class SupplierReportsComponent {
   showNotificattionDot = false;
   pollingSubscription: Subscription | undefined;
 
+  selectedOrderType: string = '';
+  isLoading: boolean = false;
+  reportData: any[] = [];
+  reportShown: boolean = false;
+
   constructor(
     private router: Router,
     private api: SupplierService,
@@ -31,7 +36,6 @@ export class SupplierReportsComponent {
     this.getDeleverdOrdersDetails();
   }
 
-  // TABLE COLUMS NAME DEFINE
   displayedColumns: string[] = [
     'orderId',
     'price',
@@ -46,20 +50,18 @@ export class SupplierReportsComponent {
     'address',
     'mobile',
   ];
-  // LOGOUT FUNCTION
+
   logout() {
     localStorage.clear();
     this.router.navigate(['/customer']);
   }
 
-  // GET RETURN ORDER DETAILS
   getPendingOrdersDetails() {
     this.api
       .getPendingOrders(localStorage.getItem('userId'), 'Returnd')
       .subscribe({
         next: (response: any) => {
           this.pendingOrders = response;
-          console.log(this.pendingOrders);
         },
         error: (error: any) => {
           Swal.fire('Error While Report Data');
@@ -67,14 +69,12 @@ export class SupplierReportsComponent {
       });
   }
 
-  // GET DELIVERED ORDERS
   getDeleverdOrdersDetails() {
     this.api
       .getPendingOrders(localStorage.getItem('userId'), 'Delivered')
       .subscribe({
         next: (response: any) => {
           this.deleverdOrders = response;
-          console.log(this.deleverdOrders);
         },
         error: (error: any) => {
           Swal.fire('Error While Gettig Customer Orders');
@@ -82,20 +82,70 @@ export class SupplierReportsComponent {
       });
   }
 
+  showReport() {
+    this.isLoading = true;
+    this.reportShown = false;
+    setTimeout(() => {
+      if (this.selectedOrderType === 'pending') {
+        this.api.getPendingOrders(localStorage.getItem('userId'), 'Returnd').subscribe({
+          next: (response: any) => {
+            this.pendingOrders = response;
+            this.reportData = this.pendingOrders;
+            this.reportShown = true;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.pendingOrders = [];
+            this.reportData = [];
+            this.reportShown = true;
+            this.isLoading = false;
+            Swal.fire('Error While Report Data');
+          },
+        });
+      } else if (this.selectedOrderType === 'delivered') {
+        this.api.getPendingOrders(localStorage.getItem('userId'), 'Delivered').subscribe({
+          next: (response: any) => {
+            this.deleverdOrders = response;
+            this.reportData = this.deleverdOrders;
+            this.reportShown = true;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.deleverdOrders = [];
+            this.reportData = [];
+            this.reportShown = true;
+            this.isLoading = false;
+            Swal.fire('Error While Getting Delivered Orders');
+          },
+        });
+      } else {
+        this.reportData = [];
+        this.reportShown = true;
+        this.isLoading = false;
+      }
+    }, 600);
+  }
+
+  generateReport() {
+    this.isLoading = true;
+    setTimeout(() => {
+      if (this.selectedOrderType === 'pending') {
+        this.exportToPDF();
+      } else if (this.selectedOrderType === 'delivered') {
+        this.exportToPDF1();
+      }
+      this.isLoading = false;
+    }, 500);
+  }
+
   exportToPDF() {
     try {
       const doc = new jsPDF('p', 'pt', 'a4');
-
-      // Title
       doc.setFontSize(18);
       doc.text('Return Orders Report', 40, 40);
-
-      // Add current date
       const currentDate = new Date().toLocaleDateString();
       doc.setFontSize(11);
       doc.text(`Generated on: ${currentDate}`, 40, 60);
-
-      // Define table columns
       const columns = [
         { header: 'Order ID', dataKey: 'orderId' },
         { header: 'Total Price', dataKey: 'price' },
@@ -103,17 +153,13 @@ export class SupplierReportsComponent {
         { header: 'Address', dataKey: 'address' },
         { header: 'Mobile No', dataKey: 'mobile_no' },
       ];
-
-      // Map data for table
-      const rows = this.pendingOrders.map((order) => ({
+      const rows = this.reportData.map((order) => ({
         orderId: order.orderId || 'N/A',
         price: order.price || 'N/A',
         itemCount: order.itemCount || 'N/A',
         address: order.address || 'N/A',
         mobile_no: order.mobile_no || 'N/A',
       }));
-
-      // Add the table
       autoTable(doc, {
         columns: columns,
         body: rows,
@@ -128,12 +174,10 @@ export class SupplierReportsComponent {
           address: { cellWidth: 'wrap' },
         },
         headStyles: {
-          fillColor: [63, 81, 181], // Mat-primary color
+          fillColor: [63, 81, 181],
           textColor: 255,
         },
       });
-
-      // Save the PDF
       doc.save(
         `Return_Orders_Report_${new Date().toISOString().slice(0, 10)}.pdf`
       );
@@ -146,17 +190,11 @@ export class SupplierReportsComponent {
   exportToPDF1() {
     try {
       const doc = new jsPDF('p', 'pt', 'a4');
-
-      // Title
       doc.setFontSize(18);
       doc.text('Delivered Orders Report', 40, 40);
-
-      // Add current date
       const currentDate = new Date().toLocaleDateString();
       doc.setFontSize(11);
       doc.text(`Generated on: ${currentDate}`, 40, 60);
-
-      // Define table columns
       const columns = [
         { header: 'Order ID', dataKey: 'orderId' },
         { header: 'Total Price', dataKey: 'price' },
@@ -164,17 +202,13 @@ export class SupplierReportsComponent {
         { header: 'Address', dataKey: 'address' },
         { header: 'Mobile No', dataKey: 'mobile_no' },
       ];
-
-      // Map data for table
-      const rows = this.deleverdOrders.map((order) => ({
+      const rows = this.reportData.map((order) => ({
         orderId: order.orderId || 'N/A',
         price: order.price || 'N/A',
         itemCount: order.itemCount || 'N/A',
         address: order.address || 'N/A',
         mobile_no: order.mobile_no || 'N/A',
       }));
-
-      // Add the table
       autoTable(doc, {
         columns: columns,
         body: rows,
@@ -189,12 +223,10 @@ export class SupplierReportsComponent {
           address: { cellWidth: 'wrap' },
         },
         headStyles: {
-          fillColor: [63, 81, 181], // Mat-primary color
+          fillColor: [63, 81, 181],
           textColor: 255,
         },
       });
-
-      // Save the PDF
       doc.save(
         `Delivered_Orders_Report_${new Date().toISOString().slice(0, 10)}.pdf`
       );
