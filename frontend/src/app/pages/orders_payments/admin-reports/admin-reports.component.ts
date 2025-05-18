@@ -20,6 +20,11 @@ export class AdminReportsComponent {
   showNotificattionDot = false;
   pollingSubscription: Subscription | undefined;
 
+  selectedReportType: string = '';
+  isLoading: boolean = false;
+  reportData: any[] = [];
+  reportShown: boolean = false;
+
   constructor(
     private router: Router,
     private api: OrderPaymentsService,
@@ -31,7 +36,6 @@ export class AdminReportsComponent {
     this.getSupplierPaymentDetails();
   }
 
-  // TABLE COLUMS NAME DEFINE
   displayedColumns: string[] = [
     'orderId',
     'address',
@@ -46,18 +50,16 @@ export class AdminReportsComponent {
     'price',
     'status',
   ];
-  // LOGOUT FUNCTION
+
   logout() {
     localStorage.clear();
     this.router.navigate(['/customer']);
   }
 
-  // GET CURRENT INVENTRY DETAILS
   getCustomerPaymentDetails() {
     this.api.getSupplierPayments(0).subscribe({
       next: (response: any) => {
         this.pendingOrders = response;
-        console.log("customer - "+ JSON.stringify(response));
       },
       error: (error: any) => {
         Swal.fire('Error While Report Data');
@@ -65,7 +67,6 @@ export class AdminReportsComponent {
     });
   }
 
-  // GET ORDERS DETAILS MONTHLY WISE
   getSupplierPaymentDetails() {
     this.api.getSupplierPayments(1).subscribe({
       next: (response: any) => {
@@ -77,62 +78,99 @@ export class AdminReportsComponent {
     });
   }
 
+  // --- NEW: Show Report logic ---
+  showReport() {
+    this.isLoading = true;
+    this.reportShown = false;
+    setTimeout(() => {
+      if (this.selectedReportType === 'customer') {
+        this.api.getSupplierPayments(0).subscribe({
+          next: (response: any) => {
+            this.pendingOrders = response;
+            this.reportData = this.pendingOrders;
+            this.reportShown = true;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.pendingOrders = [];
+            this.reportData = [];
+            this.reportShown = true;
+            this.isLoading = false;
+            Swal.fire('Error While Report Data');
+          },
+        });
+      } else if (this.selectedReportType === 'supplier') {
+        this.api.getSupplierPayments(1).subscribe({
+          next: (response: any) => {
+            this.deleverdOrders = response;
+            this.reportData = this.deleverdOrders;
+            this.reportShown = true;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.deleverdOrders = [];
+            this.reportData = [];
+            this.reportShown = true;
+            this.isLoading = false;
+            Swal.fire('Error While Getting Supplier Payments');
+          },
+        });
+      } else {
+        this.reportData = [];
+        this.reportShown = true;
+        this.isLoading = false;
+      }
+    }, 600);
+  }
+
+  // --- NEW: Download Report logic ---
+  generateReport() {
+    this.isLoading = true;
+    setTimeout(() => {
+      if (this.selectedReportType === 'customer') {
+        this.exportToPDF();
+      } else if (this.selectedReportType === 'supplier') {
+        this.exportToPDF1();
+      }
+      this.isLoading = false;
+    }, 500);
+  }
+
   exportToPDF() {
     const doc = new jsPDF();
-
-    // Title
-    doc.text('Customer Orders Report', 14, 15);
-
-    // Define table headers
+    doc.text('Customer Payments Report', 14, 15);
     const head = [['Order ID', 'Address', 'Mobile No', 'Payment', 'Status']];
-
-    // Map data for table rows
-    const data = this.pendingOrders.map((order: any) => [
+    const data = this.reportData.map((order: any) => [
       order.orderId,
       order.address,
       order.mobile,
       order.price,
       order.status
     ]);
-
-    // Add the table to the PDF
     autoTable(doc, {
       head: head,
       body: data,
       startY: 25,
     });
-
-    // Save the PDF
-    doc.save('customer-orders.pdf');
+    doc.save('customer-payments.pdf');
   }
 
   exportToPDF1() {
     const doc = new jsPDF();
-
-    // Title
-    doc.text('Supplier Orders Report', 14, 15);
-
-    // Define table headers
+    doc.text('Supplier Payments Report', 14, 15);
     const head = [['Order ID', 'Address', 'Mobile No', 'Payment', 'Status']];
-
-    // Map data for table rows
-    const data = this.deleverdOrders.map((order: any) => [
+    const data = this.reportData.map((order: any) => [
       order.orderId,
       order.address,
       order.mobile,
       order.price,
       order.status
     ]);
-
-    // Add the table to the PDF
     autoTable(doc, {
       head: head,
       body: data,
       startY: 25,
     });
-
-    // Save the PDF
-    doc.save('supplier-orders.pdf');
+    doc.save('supplier-payments.pdf');
   }
-
 }
